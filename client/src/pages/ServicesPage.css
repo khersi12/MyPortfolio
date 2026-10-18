@@ -1,0 +1,12 @@
+.services {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.services section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}

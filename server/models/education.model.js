@@ -1,0 +1,36 @@
+
+import mongoose from "mongoose";
+
+const EducationSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  firstname: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  lastname: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  completionDate: {
+    type: Date,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true,
+    trim: true
+  }
+});
+
+export default mongoose.model("Education", EducationSchema);

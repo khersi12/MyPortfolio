@@ -1,0 +1,15 @@
+.aboutme {
+  max-width: 700px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.aboutme__content {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.aboutme__list {
+  line-height: 1.8;
+}

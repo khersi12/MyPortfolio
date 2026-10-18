@@ -1,0 +1,21 @@
+.projects {
+  max-width: 900px;
+  margin: auto;
+  padding: 5px 10px;
+}
+
+.project {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+}
+
+.project img {
+  width: 500px;
+  height: 500px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 15px;
+  margin: 0 auto;
+}

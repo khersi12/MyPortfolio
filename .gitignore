@@ -1,0 +1,9 @@
+.env
+node_modules/
+client/node_modules/
+client/dist/
+dist/
+.DS_Store
+# Local editor history and starter backup
+.history/
+client_starter_backup/
