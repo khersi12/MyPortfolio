@@ -4,7 +4,8 @@ import "./Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation();
+  // Subscribe to route changes so the login state below is re-read after navigation.
+  useLocation();
   const isLoggedIn = Boolean(localStorage.getItem("token"));
 
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
