@@ -12,10 +12,10 @@
 }
 
 .project img {
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  max-width: 350px;
+  height: 250px;
   object-fit: contain;
   display: block;
-  margin-bottom: 15px;
-  margin: 0 auto;
+  margin: 15px auto;
 }

@@ -1,6 +1,5 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import { expressjwt } from "express-jwt";
 import config from "./../../config/config.js";
 const signin = async (req, res) => {
   try {
@@ -14,10 +13,11 @@ const signin = async (req, res) => {
     return res.json({
       token,
       user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-      },
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+    },
     });
   } catch (err) {
     return res.status(401).json({ error: "Could not sign in" });
@@ -29,11 +29,22 @@ const signout = (req, res) => {
     message: "signed out",
   });
 };
-const requireSignin = expressjwt({
-  secret: config.jwtSecret,
-  algorithms: ["HS256"],
-  userProperty: "auth",
-});
+const requireSignin = (req, res, next) => {
+  const header = req.headers.authorization;
+
+  if (!header || !header.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Sign in required" });
+  }
+
+  const token = header.split(" ")[1];
+
+  try {
+    req.auth = jwt.verify(token, config.jwtSecret);
+    next();
+  } catch {
+    return res.status(401).json({ error: "Invalid or expired token" });
+  }
+};
 const hasAuthorization = (req, res, next) => {
   const authorized = req.profile && req.auth && req.profile._id == req.auth._id;
   if (!authorized) {
@@ -43,4 +54,28 @@ const hasAuthorization = (req, res, next) => {
   }
   next();
 };
-export default { signin, signout, requireSignin, hasAuthorization };
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.auth._id);
+
+    if (!user || user.role !== "Admin") {
+      return res.status(403).json({
+        error: "Admin access required",
+      });
+    }
+
+    next();
+  } catch (err) {
+    return res.status(500).json({
+      error: "Authorization failed",
+    });
+  }
+};
+
+export default {
+  signin,
+  signout,
+  requireSignin,
+  hasAuthorization,
+  isAdmin,
+};

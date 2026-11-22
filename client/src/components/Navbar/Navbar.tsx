@@ -1,25 +1,51 @@
-import {NavLink} from "react-router-dom";
-import './Navbar.css'
+
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import "./Navbar.css";
+
 function Navbar() {
-    const getNavClass = ({isActive} : {isActive : boolean}) => isActive ? "nav-link active" : "nav-link";
-  return ( 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isLoggedIn = Boolean(localStorage.getItem("token"));
+
+  const getNavClass = ({ isActive }: { isActive: boolean }) =>
+    isActive ? "nav-link active" : "nav-link";
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  return (
     <header className="navbar">
       <div className="nav-container">
         <NavLink to="/" className="logo">
-            <span className="logo-shape">Portfolio</span>
-            <span>My Portfolio</span>
+          <span className="logo-shape">Portfolio</span>
+          <span>My Portfolio</span>
         </NavLink>
-        <nav className="nav-links">
 
-            <NavLink to="/" end className={getNavClass}>Home</NavLink>
-            <NavLink to="/about" end className={getNavClass}>About</NavLink>
-            <NavLink to="/education" end className={getNavClass}>Education</NavLink>
-            <NavLink to="/projects" end className={getNavClass}>Projects</NavLink>
-            <NavLink to="/services" end className={getNavClass}>Services</NavLink>
-            <NavLink to="/contact" end className={getNavClass}>Contact</NavLink>
+        <nav className="nav-links">
+          <NavLink to="/" end className={getNavClass}>Home</NavLink>
+          <NavLink to="/about" className={getNavClass}>About</NavLink>
+          <NavLink to="/education" className={getNavClass}>Education</NavLink>
+          <NavLink to="/projects" className={getNavClass}>Projects</NavLink>
+          <NavLink to="/services" className={getNavClass}>Services</NavLink>
+          <NavLink to="/contact" className={getNavClass}>Contact</NavLink>
+
+          {isLoggedIn ? (
+            <button className="nav-link" onClick={handleLogout}>
+              Logout
+            </button>
+          ) : (
+            <>
+              <NavLink to="/login" className={getNavClass}>Login</NavLink>
+              <NavLink to="/register" className={getNavClass}>Register</NavLink>
+            </>
+          )}
         </nav>
-       </div>
+      </div>
     </header>
-   );
+  );
 }
+
 export default Navbar;
